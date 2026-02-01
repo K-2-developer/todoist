@@ -30,7 +30,7 @@ class ITaskRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_max_position(self, column_id : UUID) -> int:
+    async def get_max_position(self, column_id : UUID) -> int | None:
         pass
 
     @abstractmethod

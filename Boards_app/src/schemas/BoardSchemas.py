@@ -6,35 +6,30 @@ from .ColumnSchemas import ColumnResponse
 
 
 class BoardCreate(BaseModel):
-    title : str
-    description :  Optional[str] = None
-    workspace_id : UUID
-
+    title: str
+    description: Optional[str] = None
+    workspace_id: UUID
 
 
 class BoardUpdate(BaseModel):
-    title : Optional[str] = None
-    description : Optional[str] = None
-    is_archived : Optional[bool] = False
+    title: Optional[str] = None
+    description: Optional[str] = None
+    is_archived: Optional[bool] = False
 
 
 class BoardResponse(BaseModel):
-    id : UUID
-    title : str
-    description : Optional[str] = None
-    workspace_id : UUID
-    created_at : datetime
-    updated_at : Optional[datetime] = None
+    id: UUID
+    title: str
+    description: Optional[str] = None
+    workspace_id: UUID
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     position: int  # пригодится для сортировки на случай нескольких бордов в одном рабочем пространстве
-    creator : str
-    columns : list[ColumnResponse]
+    creator: str
+    columns: list[ColumnResponse]
     is_archived: bool = False
 
 
 class BoardNameResponse(BaseModel):
-    name : str
-    id : UUID
-
-
-
-
+    name: str
+    id: UUID

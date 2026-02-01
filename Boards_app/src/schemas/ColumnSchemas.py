@@ -26,3 +26,7 @@ class ColumnResponse(BaseModel):
     updated_at : Optional[datetime] = None
     position: int  # пригодится для drag & drop.
     is_archived : bool = False
+
+class ColumnNameResponse(BaseModel):
+    title : str
+    id : UUID
