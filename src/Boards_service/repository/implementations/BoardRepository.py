@@ -1,0 +1,4 @@
+from Boards_service.repository.interfaces.column_interface import IColumnRepository
+from src.Boards_service.Domain import Board
+
+class BoardRepository(IBoardRepository):
