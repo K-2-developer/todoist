@@ -1,11 +1,9 @@
+#class AppError(Exception):
+    #default_message = 'Application error'
 
+    #def __init__(self, message : str | None = None):
+        #super().__init__(message or self.default_message)
 
-class BoardErrors:
-    
-    @staticmethod
-    def not_found(self):
-        return {'error': 'Board not found'}
+#class NotFoundError(AppError):
+    #default_message = 'Object not found'
 
-
-def board_not_found():
-    return None
