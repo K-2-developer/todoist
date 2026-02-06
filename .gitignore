@@ -20,3 +20,13 @@ env/
 .idea/
 .vscode/
 EOF
+.idea
+.venv
+src/Boards_service/Infrastructure/__pycache__
+src/Boards_service/__pycache__
+src/Boards_service/repository/__pycache__
+src/Boards_service/repository/interfaces/__pycache__
+src/Boards_service/routes/__pycache__
+src/Boards_service/schemas/__pycache__
+src/Boards_service/service/__pycache__
+src/__pycache__
