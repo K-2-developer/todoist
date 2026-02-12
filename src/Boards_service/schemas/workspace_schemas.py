@@ -13,15 +13,15 @@ class WorkSpaceCreate(BaseModel):
 class WorkSpaceUpdate(BaseModel):
     name : Optional[str] = None
     description : Optional[str] = None
-    is_archived : Optional[bool] = False
+    is_archived : Optional[bool] = None
 
 
 class WorkSpaceResponse(BaseModel):
     id : UUID
     name : str
     description : Optional[str] = None
-    board : list[BoardNameResponse]
-    creator : str
+    board : list[BoardNameResponse] = [] #тоже заглушка
+    #creator_id : Optional[UUID] = None #заглушка.переделать когда будет юзер сервис
     created_at : datetime
     updated_at : Optional[datetime]
     is_archived: bool = False

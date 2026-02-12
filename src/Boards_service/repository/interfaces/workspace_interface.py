@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
+
+from Boards_service.Domain.Workspace import Workspace
 from src.Boards_service.schemas.workspace_schemas import *
 
 
@@ -10,7 +12,7 @@ class IWorkSpaceRepository(ABC):
         pass
 
     @abstractmethod
-    async def update(self, workspace_id : UUID, data: WorkSpaceUpdate) -> None:
+    async def update(self, workspace : Workspace) -> None:
         pass
 
     @abstractmethod
@@ -18,11 +20,15 @@ class IWorkSpaceRepository(ABC):
         pass
 
     @abstractmethod
-    async def get(self, workspace_id : UUID) -> WorkSpaceResponse:
+    async def hard_delete(self, workspace_id : UUID) -> None:
         pass
 
     @abstractmethod
-    async def list_all(self) -> List[OneWorkSpaceResponse]:
+    async def get(self, workspace_id : UUID) -> Workspace:
+        pass
+
+    @abstractmethod
+    async def list_all(self) -> List[Workspace]:
         pass
 
     @abstractmethod

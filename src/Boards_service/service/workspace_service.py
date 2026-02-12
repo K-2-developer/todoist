@@ -1,5 +1,7 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 from typing import List
+
+from Boards_service.Infrastructure.Database.orm_models.workspace import WorkspaceORM
 from src.Boards_service.repository.interfaces.workspace_interface import *
 
 
@@ -9,17 +11,44 @@ class WorkSpaceService:
         self.workspace = workspace
 
     async def create_workspace(self, data : WorkSpaceCreate) -> UUID:
-        return await self.workspace.create(data)
+        workspace = Workspace(
+            id=uuid4(),
+            name=data.name,
+            description=data.description,
+            is_archived=False
+        )
+        return await self.workspace.create(workspace)
 
     async def get_workspace(self, workspace_id : UUID) -> WorkSpaceResponse:
-        return await self.workspace.get(workspace_id)
+        workspace = await self.workspace.get(workspace_id)
+        return WorkSpaceResponse(
+            id=workspace.id,
+            name=workspace.name,
+            description=workspace.description,
+            is_archived=workspace.is_archived
+        )
+
 
     async def update_workspace(self, workspace_id : UUID, data : WorkSpaceUpdate) -> None:
-        return await self.workspace.update(workspace_id, data)
+        workspace = await self.workspace.get(workspace_id)
+        if data.name is not None:
+            workspace.name = data.name
+        if data.description is not None:
+            workspace.description = data.description
+        if data.is_archived is not None:
+            workspace.is_archived = data.is_archived
+        await self.workspace.update(workspace)
+
+
 
     async def delete_workspace(self, workspace_id : UUID) -> None:
-        return await self.workspace.delete(workspace_id)
+        await self.workspace.delete(workspace_id)
+
+
+    async def hard_delete_workspace(self, workspace_id : UUID) -> None:
+        await self.workspace.hard_delete(workspace_id)
 
     async def list_workspaces(self) -> List[OneWorkSpaceResponse]:
-        return await self.workspace.list_all()
+        workspaces = await self.workspace.list_all()
+        return [OneWorkSpaceResponse(id=obj.id, name=obj.name) for obj in workspaces]
 

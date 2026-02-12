@@ -8,7 +8,7 @@ from src.Boards_service.service.board_service import BoardService
 
 router = APIRouter(prefix="/boards", tags=["Boards"])
 
-
+#Разные роуты для софт и хард удаления?
 @router.post("/", response_model=BoardResponse)
 async def create_board(
         data : BoardCreate,

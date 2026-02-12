@@ -22,6 +22,10 @@ class IBoardRepository(ABC):
         pass
 
     @abstractmethod
+    async def hard_delete(self, board_id: UUID) -> None:
+        pass
+
+    @abstractmethod
     async def list_by_workspace(self, workspace_id: UUID) -> List[Board]:
         pass
 

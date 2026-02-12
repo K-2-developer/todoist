@@ -41,6 +41,10 @@ class BoardService:
         await self.board.delete(board_id)
 
 
+    async def hard_delete_board(self, board_id: UUID) -> None:
+        await self.board.hard_delete(board_id)
+
+
     async def get_board(self, board_id: UUID) -> BoardResponse: #Проверка тут не нужна, т.к get сам выбросит ошибку
         board = await self.board.get(board_id)                  #Не совсем чистая архитектура, т.к репозиторий видит Pydantic модели, но для понимания сделаю так.
         return BoardResponse(                                   #Для чистой архитектуры бизнес логика в роутах?

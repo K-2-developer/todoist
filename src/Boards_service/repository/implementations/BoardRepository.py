@@ -2,10 +2,12 @@ from typing import List
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
+
+from Boards_service.repository.interfaces.board_interface import IBoardRepository
 from src.Boards_service.Domain.Board import Board
 from src.Boards_service.Infrastructure.Database.orm_models.board import BoardORM
 
-class BoardRepository:
+class BoardRepository(IBoardRepository):
     def  __init__(self, session : AsyncSession):
         self.session = session
 
@@ -51,7 +53,18 @@ class BoardRepository:
             updated_at=orm.updated_at
         )
 
+
     async def delete(self, board_id: UUID) -> None:
+        stmt = select(BoardORM).where(BoardORM.id == board_id)
+        res = await self.session.execute(stmt)
+        orm = res.scalar_one_or_none()
+        if orm is None:
+            raise ValueError("Board not found")
+        orm.is_archived = True
+        await self.session.commit()
+
+
+    async def hard_delete(self, board_id: UUID) -> None:
         stmt = select(BoardORM).where(BoardORM.id == board_id)
         res = await self.session.execute(stmt)
         orm = res.scalar_one_or_none()
