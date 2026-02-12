@@ -1,19 +1,20 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.Boards_service.schemas.board_schemas import *
+from uuid import UUID
+from src.Boards_service.Domain.Board import Board
 
 
 class IBoardRepository(ABC):
     @abstractmethod
-    async def create(self, data: BoardCreate) -> UUID:
+    async def create(self, board: Board) -> UUID:
         pass
 
     @abstractmethod
-    async def update(self, board_id: UUID, data: BoardUpdate) -> None:
+    async def update(self, board : Board) -> None: #(self, board_id : UUID) может и не нужен, т.к внутри Board есть id.
         pass
 
     @abstractmethod
-    async def get(self, board_id: UUID) -> BoardResponse:
+    async def get(self, board_id: UUID) -> Board:
         pass
 
     @abstractmethod
@@ -21,7 +22,7 @@ class IBoardRepository(ABC):
         pass
 
     @abstractmethod
-    async def list_by_workspace(self, workspace_id: UUID) -> List[BoardNameResponse]:
+    async def list_by_workspace(self, workspace_id: UUID) -> List[Board]:
         pass
 
     @abstractmethod

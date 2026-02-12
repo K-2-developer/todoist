@@ -31,5 +31,5 @@ class BoardResponse(BaseModel):
 
 
 class BoardNameResponse(BaseModel):
-    name: str
+    title: str
     id: UUID
