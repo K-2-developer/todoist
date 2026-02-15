@@ -2,8 +2,6 @@ from typing import List
 from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from Boards_service.schemas.workspace_schemas import WorkSpaceUpdate
 from src.Boards_service.Domain.Workspace import Workspace
 from src.Boards_service.Infrastructure.Database.orm_models.workspace import WorkspaceORM
 from src.Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
@@ -84,7 +82,7 @@ class WorkspaceRepository(IWorkSpaceRepository):
         ]
 
     async def exists(self, workspace_id : UUID) -> bool:
-        stmt = select(WorkspaceORM).where(WorkspaceORM.id == workspace_id)
+        stmt = select(WorkspaceORM.id).where(WorkspaceORM.id == workspace_id)
         res = await self.session.execute(stmt)
         return res.scalar_one_or_none() is not None
 

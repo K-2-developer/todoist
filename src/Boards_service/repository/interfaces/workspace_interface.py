@@ -1,14 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import List
-
+from uuid import UUID
 from Boards_service.Domain.Workspace import Workspace
-from src.Boards_service.schemas.workspace_schemas import *
 
 
 class IWorkSpaceRepository(ABC):
 
     @abstractmethod
-    async def create(self, data: WorkSpaceCreate) -> UUID:
+    async def create(self, workspace: Workspace) -> UUID:
         pass
 
     @abstractmethod

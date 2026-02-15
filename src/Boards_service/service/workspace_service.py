@@ -1,7 +1,5 @@
 from uuid import UUID, uuid4
-from typing import List
-
-from Boards_service.Infrastructure.Database.orm_models.workspace import WorkspaceORM
+from Boards_service.schemas.workspace_schemas import *
 from src.Boards_service.repository.interfaces.workspace_interface import *
 
 
@@ -25,7 +23,9 @@ class WorkSpaceService:
             id=workspace.id,
             name=workspace.name,
             description=workspace.description,
-            is_archived=workspace.is_archived
+            is_archived=workspace.is_archived,
+            created_at=workspace.created_at,
+            updated_at=workspace.updated_at
         )
 
 

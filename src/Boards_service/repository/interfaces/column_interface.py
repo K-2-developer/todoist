@@ -1,27 +1,33 @@
 from abc import ABC, abstractmethod
 from typing import List
+
+from Boards_service.Domain.Column import Column
 from src.Boards_service.schemas.column_schemas import *
 
 
 class IColumnRepository(ABC):
     @abstractmethod
-    async def create(self, data: ColumnCreate) -> UUID: #return id
+    async def create(self, column : Column ) -> UUID: #return id
         pass
 
     @abstractmethod
-    async def update(self, column_id : UUID, data: ColumnUpdate) -> None: # return NoContent
+    async def update(self, column: Column) -> None:
         pass
 
     @abstractmethod
-    async def list_by_board(self, board_id : UUID) -> List[ColumnResponse]:
+    async def list_by_board(self, board_id : UUID) -> List[Column]:
         pass
 
     @abstractmethod
-    async def get(self, column_id : UUID) -> ColumnResponse:
+    async def get(self, column_id : UUID) -> Column:
         pass
 
     @abstractmethod
     async def delete(self, column_id : UUID) -> None:
+        pass
+
+    @abstractmethod
+    async def hard_delete(self, column_id : UUID) -> None:
         pass
 
     @abstractmethod
