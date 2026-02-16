@@ -3,8 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
 from Boards_service.repository.interfaces.board_interface import IBoardRepository
-from src.Boards_service.Domain.Board import Board
-from src.Boards_service.Infrastructure.Database.orm_models.board import BoardORM
+from Boards_service.Domain.Board import Board
+from Boards_service.Infrastructure.Database.orm_models.board import BoardORM
 
 class BoardRepository(IBoardRepository):
     def  __init__(self, session : AsyncSession):

@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
-from uuid import UUID
 from typing import List
 
-from src.Boards_service.dependencies import get_task_service
-from src.Boards_service.schemas.task_schemas import *
-from src.Boards_service.service.task_service import TaskService
+from Boards_service.dependencies import get_task_service
+from Boards_service.schemas.task_schemas import *
+from Boards_service.service.task_service import TaskService
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

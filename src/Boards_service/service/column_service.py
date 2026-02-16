@@ -1,8 +1,8 @@
 from uuid import uuid4
 from Boards_service.Domain.Column import Column
-from src.Boards_service.repository.interfaces.board_interface import IBoardRepository
-from src.Boards_service.repository.interfaces.column_interface import IColumnRepository
-from src.Boards_service.schemas.column_schemas import *
+from Boards_service.repository.interfaces.board_interface import IBoardRepository
+from Boards_service.repository.interfaces.column_interface import IColumnRepository
+from Boards_service.schemas.column_schemas import *
 from typing import List
 
 

@@ -3,11 +3,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from Boards_service.repository.implementations.BoardRepository import BoardRepository
 from Boards_service.repository.implementations.ColumnRepository import ColumnRepository
 from Boards_service.repository.implementations.WorkspaceRepository import WorkspaceRepository
-from src.Boards_service.service.workspace_service import WorkSpaceService
-from src.Boards_service.service.board_service import  BoardService
-from src.Boards_service.service.column_service import ColumnService
-from src.Boards_service.service.task_service import TaskService
-from src.Boards_service.Infrastructure.Database.database import get_session
+from Boards_service.service.workspace_service import WorkSpaceService
+from Boards_service.service.board_service import  BoardService
+from Boards_service.service.column_service import ColumnService
+from Boards_service.service.task_service import TaskService
+from Boards_service.Infrastructure.Database.database import get_session
 
 def get_workspace_service(session : AsyncSession = Depends(get_session)) -> WorkSpaceService:
     workspace_repo = WorkspaceRepository(session)

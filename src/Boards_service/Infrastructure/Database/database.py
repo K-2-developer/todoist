@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+import Boards_service.Infrastructure.Database.orm_models
 
 DATABASE_URL = "postgresql+asyncpg://postgres:12345@localhost:5432/Boards_Service"
 

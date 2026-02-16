@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, ForeignKey
 from uuid import UUID
 from .base import Base
-from .column import ColumnORM
+
 
 class TaskORM(Base):
     __tablename__ = "tasks"

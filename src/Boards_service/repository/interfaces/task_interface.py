@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.Boards_service.schemas.task_schemas import *
+from Boards_service.schemas.task_schemas import *
 
 
 class ITaskRepository(ABC):

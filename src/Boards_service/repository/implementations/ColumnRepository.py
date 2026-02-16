@@ -1,12 +1,11 @@
 from typing import List
 from uuid import UUID
-
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from Boards_service.Domain.Column import Column
 from Boards_service.Infrastructure.Database.orm_models.column import ColumnORM
 from Boards_service.repository.interfaces.column_interface import IColumnRepository
-from Boards_service.schemas.column_schemas import ColumnResponse
+
 
 
 class ColumnRepository(IColumnRepository):

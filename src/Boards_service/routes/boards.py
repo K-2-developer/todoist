@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends
-from uuid import UUID
 from typing import List
-
-from src.Boards_service.dependencies import get_board_service
-from src.Boards_service.schemas.board_schemas import *
-from src.Boards_service.service.board_service import BoardService
+from Boards_service.dependencies import get_board_service
+from Boards_service.schemas.board_schemas import *
+from Boards_service.service.board_service import BoardService
 
 router = APIRouter(prefix="/boards", tags=["Boards"])
 

@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
-from uuid import UUID
 from typing import List
 
-from src.Boards_service.dependencies import get_column_service
-from src.Boards_service.schemas.column_schemas import *
-from src.Boards_service.service.column_service import ColumnService
+from Boards_service.dependencies import get_column_service
+from Boards_service.schemas.column_schemas import *
+from Boards_service.service.column_service import ColumnService
 
 router = APIRouter(prefix="/columns", tags=["Columns"])
 

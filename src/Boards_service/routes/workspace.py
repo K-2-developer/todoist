@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends
-from uuid import UUID
 from typing import List
-
-from src.Boards_service.dependencies import get_workspace_service
-from src.Boards_service.schemas.workspace_schemas import *
-from src.Boards_service.service.workspace_service import WorkSpaceService
+from Boards_service.dependencies import get_workspace_service
+from Boards_service.schemas.workspace_schemas import *
+from Boards_service.service.workspace_service import WorkSpaceService
 
 router = APIRouter(prefix="/workspace", tags=["Workspace"])
 

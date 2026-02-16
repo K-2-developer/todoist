@@ -2,9 +2,9 @@ from typing import List
 from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.Boards_service.Domain.Workspace import Workspace
-from src.Boards_service.Infrastructure.Database.orm_models.workspace import WorkspaceORM
-from src.Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
+from Boards_service.Domain.Workspace import Workspace
+from Boards_service.Infrastructure.Database.orm_models.workspace import WorkspaceORM
+from Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
 
 class WorkspaceRepository(IWorkSpaceRepository):
     def __init__(self, session : AsyncSession):

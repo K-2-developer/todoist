@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
-
 from Boards_service.Domain.Column import Column
-from src.Boards_service.schemas.column_schemas import *
+from Boards_service.schemas.column_schemas import *
 
 
 class IColumnRepository(ABC):

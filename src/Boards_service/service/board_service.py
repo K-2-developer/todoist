@@ -1,11 +1,9 @@
 from uuid import uuid4
 from typing import List
-
-from Boards_service.Infrastructure.Database.orm_models import board
-from src.Boards_service.repository.interfaces.board_interface import IBoardRepository
-from src.Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
-from src.Boards_service.schemas.board_schemas import *
-from src.Boards_service.Domain.Board import Board
+from Boards_service.repository.interfaces.board_interface import IBoardRepository
+from Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
+from Boards_service.schemas.board_schemas import *
+from Boards_service.Domain.Board import Board
 
 
 class BoardService:

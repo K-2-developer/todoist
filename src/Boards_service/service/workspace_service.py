@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 from Boards_service.schemas.workspace_schemas import *
-from src.Boards_service.repository.interfaces.workspace_interface import *
+from Boards_service.repository.interfaces.workspace_interface import *
 
 
 class WorkSpaceService:
