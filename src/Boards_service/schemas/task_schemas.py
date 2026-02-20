@@ -21,7 +21,7 @@ class TaskResponse(BaseModel):
     column_id: UUID
     id : UUID
     title : str
-    description : Optional[str] = None
+    description : Optional[str]
     created_at : datetime
     creator : str
     is_archived : bool = False
