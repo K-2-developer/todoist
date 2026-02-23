@@ -23,7 +23,7 @@ class TaskResponse(BaseModel):
     title : str
     description : Optional[str]
     created_at : datetime
-    creator : str
+    creator : Optional[str] = None
     is_archived : bool = False
     updated_at : Optional[datetime] = None
     position : int
@@ -38,6 +38,7 @@ class TaskReorder(BaseModel):
 
 class TaskMove(BaseModel):
     new_column_id: UUID
+    new_positon : int
 
 
 

@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from typing import List
-
 from Boards_service.dependencies import get_task_service
 from Boards_service.schemas.task_schemas import *
 from Boards_service.service.task_service import TaskService
@@ -56,11 +55,6 @@ async def reorder_task(
         service: TaskService = Depends(get_task_service)
 ):
     return await service.change_position(task_id, data.new_position)
-
-
-class TaskMove(BaseModel):
-    new_column_id: UUID
-
 
 @router.patch('/{task_id}/move', response_model=TaskResponse)
 async def move_task(

@@ -106,6 +106,9 @@ class TaskRepository(ITaskRepository):
             description=obj.description,
             position=obj.position,
             column_id=obj.column_id,
+            created_at=obj.created_at,
+            updated_at=obj.updated_at,
+            is_archived=obj.is_archived
         )
             for obj in rows
         ]
