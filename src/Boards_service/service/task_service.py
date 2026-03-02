@@ -25,7 +25,8 @@ class TaskService:
             position=data.position,
             is_archived=False
         )
-        return await self.task.create(task)
+        id = await self.task.create(task)
+        return id
 
 
 
