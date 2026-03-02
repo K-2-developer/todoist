@@ -69,4 +69,3 @@ class BoardService:
         return [BoardNameResponse(id=obj.id, title=obj.title) for obj in boards]
 
 
-#Если бизнес логика будет в роутах - тогда сервисы мало для чего нужны?
