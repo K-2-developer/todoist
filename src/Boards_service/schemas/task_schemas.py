@@ -38,7 +38,7 @@ class TaskReorder(BaseModel):
 
 class TaskMove(BaseModel):
     new_column_id: UUID
-    new_positon : int
+    new_position : int
 
 
 

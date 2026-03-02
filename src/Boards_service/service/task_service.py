@@ -1,11 +1,10 @@
-from datetime import timezone
 from typing import List
 from uuid import uuid4
-
 from Boards_service.Domain.Task import Task
 from Boards_service.repository.interfaces.column_interface import IColumnRepository
 from Boards_service.repository.interfaces.task_interface import ITaskRepository
 from Boards_service.schemas.task_schemas import *
+from datetime import datetime
 
 
 class TaskService:
@@ -94,14 +93,14 @@ class TaskService:
     async def move_to_column(self, task_id : UUID, new_column_id : UUID, new_position : int) -> None:
         if not await self.column.exists(new_column_id):
             raise ValueError('Column not found')
-        task = await self.column.get(task_id)
+        task = await self.task.get(task_id)
         if task.column_id == new_column_id:
-            await self.task.change_position(task_id, new_position)
+            await self.change_position(task_id, new_position)
             return
         max_position = await self.task.get_max_position(new_column_id)
         max_position = max_position or 0
         if new_position < 1:
-            new_positon = 1
+            new_position = 1
         if new_position > max_position:
             new_position = max_position
         await self.task.move_to_column(task_id, new_column_id, new_position)
