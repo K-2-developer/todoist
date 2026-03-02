@@ -14,7 +14,7 @@ class ColumnService:
 
     async def create_column(self, data : ColumnCreate) -> UUID:
         if not await self.board.exists(data.board_id):
-            raise ValueError('Board not found')  #РАЗОБРАТЬ!!!!
+            raise ValueError('Board not found')
         last_position = await self.column.get_last_position(data.board_id)
         new_position = (last_position or 0) + 1
         column = Column(
@@ -44,12 +44,17 @@ class ColumnService:
     async  def hard_delete(self, column_id : UUID) -> None:
         return await self.column.hard_delete(column_id)
 
-    async def get_column(self, column_id : UUID) -> ColumnNameResponse:
+    async def get_column(self, column_id : UUID) -> ColumnResponse:
         column = await self.column.get(column_id)
 
-        return ColumnNameResponse(
+        return ColumnResponse(
             id=column.id,
             title=column.title,
+            board_id=column.board_id,
+            position=column.position,
+            is_archived=column.is_archived,
+            created_at=column.created_at,
+            updated_at=column.updated_at
         )
 
     async def list_by_board(self, board_id : UUID) -> List[ColumnNameResponse]:
@@ -61,10 +66,9 @@ class ColumnService:
         column = await self.column.get(column_id)
         old_position = column.position
         if old_position == new_position:
-            return column
+            return
         await self.column.shift_positions(board_id=column.board_id, old_position=old_position, new_position=new_position)
         await self.column.update_position(column_id, new_position)
-        return await self.column.update_position(column_id, new_position)
 
 
 
