@@ -20,7 +20,9 @@ class BoardService:
             description=data.description,
             workspace_id=data.workspace_id,
             position=0,
-            is_archived=False
+            is_archived=False,
+            created_at=datetime.now(),
+            updated_at=None
         )
         return await self.board.create(board)
 

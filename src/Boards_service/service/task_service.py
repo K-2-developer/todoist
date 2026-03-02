@@ -1,3 +1,4 @@
+from datetime import timezone
 from typing import List
 from uuid import uuid4
 
@@ -16,14 +17,16 @@ class TaskService:
         if not await self.column.exists(data.column_id):
             raise ValueError('Column not found')
         last_position = await self.task.get_max_position(data.column_id)
-        data.position = (last_position or 0) + 1
+        position = (last_position or 0) + 1
         task = Task(
             id=uuid4(),
             title=data.title,
             description=data.description,
             column_id=data.column_id,
-            position=data.position,
-            is_archived=False
+            position=position,
+            is_archived=False,
+            created_at=datetime.now(),
+            updated_at=None
         )
         id = await self.task.create(task)
         return id

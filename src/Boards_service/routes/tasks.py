@@ -6,7 +6,7 @@ from Boards_service.service.task_service import TaskService
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
-@router.post('/', response_model=TaskResponse)
+@router.post('/', response_model=UUID)
 async def create_task(
         data: TaskCreate,
         service: TaskService = Depends(get_task_service)

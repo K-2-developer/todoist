@@ -16,7 +16,7 @@ class BoardORM(Base):
     position : Mapped[int] = mapped_column(Integer,nullable=False,default=0)
     is_archived : Mapped[bool] = mapped_column(Boolean,nullable=False,default=False)
     created_at : Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False,server_default=func.now())
-    updated_at : Mapped[datetime | None] = mapped_column(DateTime(timezone=True),onupdate=func.now())
+    updated_at : Mapped[datetime | None] = mapped_column(DateTime(timezone=True),onupdate=func.now(), nullable=True)
     #---relationship___
     workspace : Mapped['WorkspaceORM'] = relationship(back_populates='boards')
     columns : Mapped[list['ColumnORM']] = relationship(back_populates='board', cascade='all, delete-orphan')

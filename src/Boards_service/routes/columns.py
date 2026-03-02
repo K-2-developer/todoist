@@ -7,7 +7,7 @@ from Boards_service.service.column_service import ColumnService
 
 router = APIRouter(prefix="/columns", tags=["Columns"])
 
-@router.post('/', response_model=ColumnResponse)
+@router.post('/', response_model=UUID)
 async def create_column(
         data : ColumnCreate,
         service : ColumnService = Depends(get_column_service)
