@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from uuid import UUID
 from sqlalchemy import select, func
@@ -47,6 +48,8 @@ class ColumnRepository(IColumnRepository):
             position=orm.position,
             board_id=orm.board_id,
             is_archived=orm.is_archived,
+            created_at=datetime.now(),
+            updated_at=None
         )
 
     async def delete(self, column_id : UUID) -> None:

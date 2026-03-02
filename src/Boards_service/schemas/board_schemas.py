@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from uuid import UUID
 from datetime import datetime
-from .column_schemas import ColumnResponse
+from .column_schemas import  ColumnNameResponse
 
 
 class BoardCreate(BaseModel):
@@ -25,8 +25,8 @@ class BoardResponse(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime] = None
     position: int  # пригодится для сортировки на случай нескольких бордов в одном рабочем пространстве
-    creator: str
-    columns: list[ColumnResponse]
+    creator: Optional[str] = None
+    columns: list[ColumnNameResponse] = []
     is_archived: bool = False
 
 

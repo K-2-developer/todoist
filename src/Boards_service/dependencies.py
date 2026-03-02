@@ -17,7 +17,8 @@ def get_workspace_service(session : AsyncSession = Depends(get_session)) -> Work
 def get_board_service( session: AsyncSession = Depends(get_session)) -> BoardService:
     board_repo = BoardRepository(session)
     workspace_repo = WorkspaceRepository(session)
-    return BoardService(board_repo, workspace_repo)
+    column_repo = ColumnRepository(session)
+    return BoardService(board_repo, workspace_repo, column_repo)
 
 def get_column_service(session: AsyncSession = Depends(get_session)) -> ColumnService:
     column_repo = ColumnRepository(session)

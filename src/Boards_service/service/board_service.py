@@ -1,15 +1,18 @@
 from uuid import uuid4
 from typing import List
 from Boards_service.repository.interfaces.board_interface import IBoardRepository
+from Boards_service.repository.interfaces.column_interface import IColumnRepository
 from Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
 from Boards_service.schemas.board_schemas import *
 from Boards_service.Domain.Board import Board
+from Boards_service.schemas.column_schemas import ColumnNameResponse
 
 
 class BoardService:
-    def __init__(self, board: IBoardRepository, workspace: IWorkSpaceRepository):
+    def __init__(self, board: IBoardRepository, workspace: IWorkSpaceRepository, column : IColumnRepository):
         self.board = board
         self.workspace = workspace
+        self.column = column
 
     async def create_board(self, data: BoardCreate) -> UUID:
         if not await self.workspace.exists(data.workspace_id):
@@ -46,8 +49,13 @@ class BoardService:
 
 
     async def get_board(self, board_id: UUID) -> BoardResponse: #Проверка тут не нужна, т.к get сам выбросит ошибку
-        board = await self.board.get(board_id)                  #Не совсем чистая архитектура, т.к репозиторий видит Pydantic модели, но для понимания сделаю так.
-        return BoardResponse(                                   #Для чистой архитектуры бизнес логика в роутах?
+        board = await self.board.get(board_id)
+        columns = await self.column.list_by_board(board_id)
+        columns = [ColumnNameResponse(
+            id=c.id,
+            title=c.title
+        )for c in columns]
+        return BoardResponse(
             id=board.id,
             title=board.title,
             description=board.description,
@@ -56,10 +64,11 @@ class BoardService:
             is_archived=board.is_archived,
             created_at=board.created_at,
             updated_at=board.updated_at,
+            creator=None,
+            columns=columns
         )
 
-        '''async def get_board(self, board_id: UUID) -> Board:
-        return await self.board.get(board_id)   Вариант для чистой архитектуры, остальное в роуте прописать'''
+
 
 
     async def list_by_workspace(self, workspace_id: UUID) -> List[BoardNameResponse]:

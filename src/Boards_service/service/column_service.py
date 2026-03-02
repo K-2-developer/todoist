@@ -23,6 +23,8 @@ class ColumnService:
             board_id=data.board_id,
             position=new_position,
             is_archived=False,
+            created_at=datetime.now(),
+            updated_at=None
         )
         return await self.column.create(column)
 
