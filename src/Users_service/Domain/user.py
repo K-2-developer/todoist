@@ -8,8 +8,9 @@ class User:
     second_name : str
     email : str
     id : UUID
-    role : str | None #вопросы есть
-    password : str
+    hashed_password : str
+    role : str | None
     created_at : datetime
-    updated_at : datetime
+    updated_at : datetime | None = None
+    is_active: bool = True
 
