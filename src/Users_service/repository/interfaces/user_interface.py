@@ -12,18 +12,30 @@ class IUserRepository(ABC):
     async def update_user(self, user : User) -> None:
         pass
 
-    async def delete_user(self, user : User) -> None:
+    @abstractmethod
+    async def hard_delete_user(self, user_id : UUID) -> None:
         pass
 
-    async def get_user(self, user : User) -> UUID:
+    @abstractmethod
+    async def delete_user(self, user_id : UUID) -> None:
         pass
 
-    async def list_all_users(self, data : List[User]) -> List[User]:
+
+    @abstractmethod
+    async def get_user(self, user_id : UUID) -> User:
         pass
 
-    async def get_user_by_id(self, user_id : UUID) -> UUID:
+
+    @abstractmethod
+    async def list_all_users(self) -> List[User]:
         pass
 
-    async def list_users_by_boards(self): #Тут вопросы
-        pass
 
+    # @abstractmethod
+    # async def get_user_by_id(self, user_id : UUID) -> UUID:
+    #     pass
+
+
+    @abstractmethod
+    async def get_user_by_email(self, email: str) -> User:
+        pass
