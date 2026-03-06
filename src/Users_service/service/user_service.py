@@ -2,39 +2,37 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import uuid4, UUID
 from pwdlib import PasswordHash
-from pydantic import ValidationError
-
 from Users_service.Domain.user import User
 from Users_service.repository.interfaces.user_interface import IUserRepository
-from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserResponse
+from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserResponse, UserResponseShort, UserEmailResponse
 
-hashed_pass = PasswordHash.reccomended()
+hasher = PasswordHash.recommended()
 
 class UserService:
     def __init__(self, repo : IUserRepository):
         self.repo = repo
 
-    def hashed_pass(self, password : str) -> str:
-        return hashed_pass.hash(password)
+    def hash_password(self, password : str) -> str:
+        return hasher.hash(password)
 
     def verify_password(self, password : str, hashed_password : str) -> bool:
-        return hashed_password.verify(password, hashed_password)
+        return hasher.verify(password, hashed_password)
 
     async def create_user(self, data : UserCreate) -> UUID:
         existing_user = await self.repo.get_user_by_email(data.email)
         if existing_user:
             raise ValueError('Email already registered')
-        hashed_password = self.hashed_pass(data.password)
+        hashed_password = self.hash_password(data.password)
         user = User(
             id=uuid4(),
             email=data.email,
             name=data.name,
             second_name=data.second_name,
             hashed_password=hashed_password,
-            role=data.role or "user",
             is_active=True,
             created_at=datetime.now(),
-            updated_at=None
+            updated_at=None,
+            role='user'
         )
         await self.repo.create_user(user)
         return user.id
@@ -59,7 +57,7 @@ class UserService:
         if data.is_active is not None:
             user.is_active = data.is_active
         if data.password is not None:
-            user.hashed_password = self._hash_password(data.password)
+            user.hashed_password = self.hash_password(data.password)
 
         user.updated_at = datetime.now()
         await self.repo.update_user(user)
@@ -85,7 +83,29 @@ class UserService:
     async def hard_delete_user(self, user_id : UUID) -> None:
         await self.repo.hard_delete_user(user_id)
 
-    
+    async def list_all_users(self) -> List[UserResponseShort]:
+        users = await self.repo.list_all_users()
+        return [UserResponseShort(
+            id=u.id,
+            email=u.email,
+            name=u.name,
+            second_name=u.second_name,
+            role=u.role
+        ) for u in users]
+
+    async def get_user_by_email(self, email : str) -> UserEmailResponse:
+        user = await self.repo.get_user_by_email(email)
+        if user is None:
+            raise ValueError('User not found')
+        return UserEmailResponse(
+            name=user.name,
+            second_name=user.second_name,
+            email=user.email
+        )
+
+
+
+
 
 
 

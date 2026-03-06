@@ -18,6 +18,8 @@ class UserUpdate(BaseModel):
     email : Optional[EmailStr] = None
     role : Optional[str] = None
     is_active : Optional[bool] = None
+    password: Optional[str] = None
+
 
 
 class UserResponse(BaseModel):
@@ -35,4 +37,14 @@ class UserLogin(BaseModel):
     username : str
     password : str
 
+class UserResponseShort(BaseModel):
+    id: UUID
+    email: EmailStr
+    name: str
+    second_name: str
+    role : Optional[str] = None
 
+class UserEmailResponse(BaseModel):
+    name : Optional[str]
+    second_name : Optional[str]
+    email : EmailStr
