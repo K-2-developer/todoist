@@ -21,5 +21,5 @@ async def get_current_user(
         token : str = Depends(oauth2_scheme),
         service : UserService = Depends(get_user_service)
 ) -> User:
-    
+    pass
 
