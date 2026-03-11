@@ -1,16 +1,39 @@
-from datetime import datetime
-from typing import List, Optional
+from datetime import datetime, timedelta, timezone
+from typing import List
 from uuid import uuid4, UUID
 from pwdlib import PasswordHash
 from Users_service.Domain.user import User
 from Users_service.repository.interfaces.user_interface import IUserRepository
 from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserResponse, UserResponseShort, UserEmailResponse
+from jose import jwt
+from Users_service.core.config import settings
+from datetime import datetime, timedelta, timezone
 
 hasher = PasswordHash.recommended()
 
 class UserService:
     def __init__(self, repo : IUserRepository):
         self.repo = repo
+
+    def create_access_token(self, data : dict, expires_delta : timedelta | None=None) -> str:
+        to_encode = data.copy()
+        if expires_delta:
+            expire = datetime.now(timezone.utc) + expires_delta
+        else:
+            expire = datetime.now(timezone.utc) + timedelta(minutes=settings.access_token_expire_minutes)
+        to_encode.update({'exp' : expire})
+        encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+        return encoded_jwt
+
+    async def authenticate_user(self, email : str, password : str) -> User | None:
+        user = await self.repo.get_user_by_email(email)
+        if user is None:
+            return None
+        if not self.verify_password(password, user.hashed_password):
+            return None
+        return User
+
+
 
     def hash_password(self, password : str) -> str:
         return hasher.hash(password)

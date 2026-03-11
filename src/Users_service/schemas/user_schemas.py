@@ -48,3 +48,11 @@ class UserEmailResponse(BaseModel):
     name : Optional[str]
     second_name : Optional[str]
     email : EmailStr
+
+class Token(BaseModel):
+    access_token : str
+    token_type : str = 'bearer'
+
+class TokenData(BaseModel):
+    email : str | None=None
+    user_id : str | None=None
