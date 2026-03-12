@@ -1,5 +1,12 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+
 from fastapi import FastAPI
-from Users_service.routes import users
+from routes import users, authentication
+
+
+
 
 app = FastAPI(
     title='Users Service',
@@ -7,3 +14,4 @@ app = FastAPI(
 )
 
 app.include_router(users.router)
+app.include_router(authentication.router)

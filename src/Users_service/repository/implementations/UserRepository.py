@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
@@ -98,12 +98,12 @@ class UserRepository(IUserRepository):
             for obj in rows
         ]
 
-    async def get_user_by_email(self, email : str) -> User:
+    async def get_user_by_email(self, email: str) -> Optional[User]:
         stmt = select(UserORM).where(UserORM.email == email)
         res = await self.session.execute(stmt)
         orm = res.scalar_one_or_none()
         if orm is None:
-            raise ValueError('User not found')
+            return None
         return User(
             id=orm.id,
             name=orm.name,

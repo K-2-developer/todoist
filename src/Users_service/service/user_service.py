@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta, timezone
 from typing import List
 from uuid import uuid4, UUID
 from pwdlib import PasswordHash
@@ -31,7 +30,7 @@ class UserService:
             return None
         if not self.verify_password(password, user.hashed_password):
             return None
-        return User
+        return user
 
 
 

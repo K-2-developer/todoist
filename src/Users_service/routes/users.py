@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
-from uuid import UUID
 from Users_service.dependencies import get_user_service
 from Users_service.service.user_service import UserService
 from Users_service.schemas.user_schemas import *
+from typing import Annotated
+from Users_service.dependencies import get_current_user, get_current_active_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -14,12 +15,27 @@ async def create_user(
 ):
     return await service.create_user(data)
 
+
+@router.get("/me", response_model=UserResponse)
+async def read_users_me(
+    current_user: Annotated[UserResponse, Depends(get_current_active_user)]
+):
+    return current_user
+
 @router.get('/{user_id}', response_model=UserResponse, status_code=200)
 async def get_user(
-        user_id : UUID,
-        service : UserService = Depends(get_user_service)
+    user_id: UUID,
+    service: UserService = Depends(get_user_service),
+    current_user: Annotated[UserResponse, Depends(get_current_user)] = None
 ):
-    return await service.get_user(user_id)
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    try:
+        return await service.get_user(user_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404)
+
+
 
 @router.put('/{user_id}', status_code=204)
 async def update_user(
