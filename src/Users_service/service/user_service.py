@@ -7,7 +7,7 @@ from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserRespo
 from jose import jwt
 from Users_service.core.config import settings
 from datetime import datetime, timedelta, timezone
-from core.exceptions import UserNotFound, PermissionError
+from Users_service.core.exceptions import UserNotFound, PermissionError, ConflictError
 
 hasher = PasswordHash.recommended()
 
@@ -44,7 +44,7 @@ class UserService:
     async def create_user(self, data : UserCreate) -> UUID:
         existing_user = await self.repo.get_user_by_email(data.email)
         if existing_user:
-            raise ValueError('Email already registered')
+            raise ConflictError('Email already registered')
         hashed_password = self.hash_password(data.password)
         user = User(
             id=uuid4(),
@@ -61,11 +61,12 @@ class UserService:
         return user.id
 
 
-    async def update_user(self, user_id : UUID, data : UserUpdate) -> None:
+    async def update_user(self, user_id : UUID, data : UserUpdate, current_user : User) -> None:
         user = await self.repo.get_user(user_id)
-        if not user:
-            raise ValueError("User not found")
-
+        if user is None:
+            raise UserNotFound("User not found")
+        if current_user.id != user.id:
+            raise PermissionError('Not enough permissions')
         if data.name is not None:
             user.name = data.name
         if data.second_name is not None:
@@ -73,7 +74,7 @@ class UserService:
         if data.email is not None and data.email != user.email:
             existing = await self.repo.get_user_by_email(data.email)
             if existing and existing.id != user_id:
-                raise ValueError("Email already in use")
+                raise ConflictError("Email already in use")
             user.email = data.email
         if data.role is not None:
             user.role = data.role
@@ -86,10 +87,12 @@ class UserService:
         await self.repo.update_user(user)
 
 
-    async def get_user(self, user_id : UUID) -> UserResponse:
+    async def get_user(self, user_id : UUID, current_user : User) -> UserResponse:
         user = await self.repo.get_user(user_id)
         if user is None:
-            raise ValueError('User not found')
+            raise UserNotFound('User not found')
+        if current_user.id != user.id:
+            raise PermissionError('Not enough permissions')
         return UserResponse(
             id=user.id,
             email=user.email,
@@ -100,10 +103,21 @@ class UserService:
             created_at=user.created_at,
             updated_at=user.updated_at
         )
-    async def delete_user(self, user_id : UUID) -> None:
+    async def delete_user(self, user_id : UUID, current_user : User) -> None:
+        user = await self.repo.get_user(user_id)
+        if user is None:
+            raise UserNotFound('User not found')
+        if current_user.id != user.id:
+            raise PermissionError('Not enough permissions')
         await self.repo.delete_user(user_id)
 
-    async def hard_delete_user(self, user_id : UUID) -> None:
+
+    async def hard_delete_user(self, user_id : UUID, current_user : User) -> None:
+        user = await self.repo.get_user(user_id)
+        if user is None:
+            raise UserNotFound('User not found')
+        if current_user.id != user.id:
+            raise PermissionError('Not enough permissions')
         await self.repo.hard_delete_user(user_id)
 
     async def list_all_users(self) -> List[UserResponseShort]:
@@ -119,7 +133,7 @@ class UserService:
     async def get_user_by_email(self, email : str) -> UserEmailResponse:
         user = await self.repo.get_user_by_email(email)
         if user is None:
-            raise ValueError('User not found')
+            raise UserNotFound('User not found')
         return UserEmailResponse(
             name=user.name,
             second_name=user.second_name,
