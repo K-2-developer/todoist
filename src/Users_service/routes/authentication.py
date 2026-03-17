@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-
+from Users_service.core.exceptions import ConflictError
 from Users_service.dependencies import get_user_service
 from Users_service.service.user_service import UserService
 from Users_service.schemas.user_schemas import UserCreate, Token
@@ -16,8 +16,9 @@ async def register(
     try:
         user_id = await service.create_user(user_data)
         return {"id": user_id}
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    except ConflictError as e:
+        raise HTTPException(status_code=409, detail=str(e))
+
 
 @router.post("/login", response_model=Token)
 async def login(

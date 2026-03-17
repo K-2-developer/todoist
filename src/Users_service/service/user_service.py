@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from uuid import uuid4, UUID
 from pwdlib import PasswordHash
 from Users_service.Domain.user import User
@@ -29,6 +29,8 @@ class UserService:
         user = await self.repo.get_user_by_email(email)
         if user is None:
             return None
+        if not user.is_active:
+            return None
         if not self.verify_password(password, user.hashed_password):
             return None
         return user
@@ -40,6 +42,10 @@ class UserService:
 
     def verify_password(self, password : str, hashed_password : str) -> bool:
         return hasher.verify(password, hashed_password)
+
+    async def get_user_domain(self, user_id: UUID) -> Optional[User]:
+        """Возвращает доменную модель пользователя по ID или None, если не найден."""
+        return await self.repo.get_user(user_id)
 
     async def create_user(self, data : UserCreate) -> UUID:
         existing_user = await self.repo.get_user_by_email(data.email)

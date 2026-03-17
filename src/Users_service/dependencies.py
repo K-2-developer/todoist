@@ -7,7 +7,8 @@ from core.config import settings
 from Users_service.Infrastructure.Database.database import get_session
 from Users_service.repository.implementations.UserRepository import UserRepository
 from Users_service.service.user_service import UserService
-from Users_service.schemas.user_schemas import TokenData, UserResponse
+from Users_service.Domain.user import User
+
 
 async def get_user_service(session : AsyncSession=Depends(get_session)) -> UserService:
     repo = UserRepository(session)
@@ -18,7 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
     service: UserService = Depends(get_user_service)
-) -> UserResponse:
+) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -29,18 +30,16 @@ async def get_current_user(
         user_id: str = payload.get("sub")
         if user_id is None:
             raise credentials_exception
-        token_data = TokenData(user_id=user_id)
     except JWTError:
         raise credentials_exception
-
-    user = await service.get_user(UUID(token_data.user_id))
+    user = await service.get_user_domain(UUID(user_id))
     if user is None:
         raise credentials_exception
     return user
 
 async def get_current_active_user(
-    current_user: UserResponse = Depends(get_current_user)
-) -> UserResponse:
+    current_user: User = Depends(get_current_user)
+) -> User:
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user

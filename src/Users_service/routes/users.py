@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
+from Users_service.Domain.user import User
 from Users_service.dependencies import get_user_service
 from Users_service.service.user_service import UserService
 from Users_service.schemas.user_schemas import *
@@ -18,58 +19,48 @@ async def create_user(
 
 @router.get("/me", response_model=UserResponse)
 async def read_users_me(
-    current_user: Annotated[UserResponse, Depends(get_current_active_user)]
+    current_user: Annotated[User, Depends(get_current_active_user)]
 ):
-    return current_user
+    return UserResponse.model_validate(current_user)
 
 @router.get('/{user_id}', response_model=UserResponse, status_code=200)
 async def get_user(
-    user_id: UUID,
-    service: UserService = Depends(get_user_service),
-    current_user: Annotated[UserResponse, Depends(get_current_user)] = None
+        user_id: UUID,
+        service: UserService = Depends(get_user_service),
+        current_user: Annotated[User, Depends(get_current_user)] = None
 ):
-    if current_user.id != user_id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-    try:
-        return await service.get_user(user_id)
-    except ValueError:
-        raise HTTPException(status_code=404)
+    return await service.get_user(user_id, current_user)
 
 
 
 @router.put('/{user_id}', status_code=204)
 async def update_user(
-        user_id : UUID,
-        data : UserUpdate,
+        user_id: UUID,
+        data: UserUpdate,
         service: UserService = Depends(get_user_service),
-        current_user: Annotated[UserResponse, Depends(get_current_user)] = None
+        current_user: Annotated[User, Depends(get_current_user)] = None
 ):
-    if current_user.id != user_id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-    try:
-        await service.update_user(user_id, data)
-    except ValueError as e:
-        if "not found" in str(e).lower():
-            raise HTTPException(status_code=404, detail=str(e))
-        raise HTTPException(status_code=400, detail=str(e))
+    await service.update_user(user_id, data, current_user)
 
 
 @router.delete('/{user_id}', status_code=200)
 async def delete_user(
-        user_id : UUID,
-        service : UserService = Depends(get_user_service)
+    user_id: UUID,
+    service: UserService = Depends(get_user_service),
+    current_user: Annotated[User, Depends(get_current_user)] = None
 ):
-    await service.delete_user(user_id)
-    return {'status' : 'archived'}
+    await service.delete_user(user_id, current_user)
+    return {"status": "archived"}
 
 
 @router.delete('/{user_id}/hard', status_code=200)
 async def hard_delete_user(
-        user_ud : UUID,
-        service : UserService = Depends(get_user_service)
+    user_id: UUID,
+    service: UserService = Depends(get_user_service),
+    current_user: Annotated[User, Depends(get_current_user)] = None
 ):
-    await service.hard_delete_user(user_ud)
-    return {'status' : 'deleted'}
+    await service.hard_delete_user(user_id, current_user)
+    return {"status": "deleted"}
 
 @router.get("/", response_model=List[UserResponseShort], status_code=200)
 async def list_users(
