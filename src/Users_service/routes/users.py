@@ -32,7 +32,7 @@ async def get_user(
         raise HTTPException(status_code=403, detail="Not enough permissions")
     try:
         return await service.get_user(user_id)
-    except ValueError as e:
+    except ValueError:
         raise HTTPException(status_code=404)
 
 
@@ -41,9 +41,18 @@ async def get_user(
 async def update_user(
         user_id : UUID,
         data : UserUpdate,
-        service : UserService = Depends(get_user_service)
+        service: UserService = Depends(get_user_service),
+        current_user: Annotated[UserResponse, Depends(get_current_user)] = None
 ):
-    await service.update_user(user_id, data)
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    try:
+        await service.update_user(user_id, data)
+    except ValueError as e:
+        if "not found" in str(e).lower():
+            raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.delete('/{user_id}', status_code=200)
 async def delete_user(

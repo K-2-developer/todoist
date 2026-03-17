@@ -7,6 +7,7 @@ from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserRespo
 from jose import jwt
 from Users_service.core.config import settings
 from datetime import datetime, timedelta, timezone
+from core.exceptions import UserNotFound, PermissionError
 
 hasher = PasswordHash.recommended()
 
