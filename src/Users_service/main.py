@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 sys.path.append(str(Path(__file__).parent.parent))
 
 from fastapi import FastAPI, Request
-from routes import users, authentication
+from routes import users, authentication, admin
 from core.exceptions import UserNotFound, PermissionError, ConflictError
 
 
@@ -30,3 +30,4 @@ async def conflict_error_handler(request: Request, exc: ConflictError):
 
 app.include_router(users.router)
 app.include_router(authentication.router)
+app.include_router(admin.router)

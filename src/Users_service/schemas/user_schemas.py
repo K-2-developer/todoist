@@ -56,3 +56,8 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email : str | None=None
     user_id : str | None=None
+
+
+class UserRoleUpdate(BaseModel):
+    role : str
+

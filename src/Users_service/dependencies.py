@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
+from Users_service.service.admin_service import AdminService
 from core.config import settings
 from Users_service.Infrastructure.Database.database import get_session
 from Users_service.repository.implementations.UserRepository import UserRepository
@@ -15,6 +16,11 @@ async def get_user_service(session : AsyncSession=Depends(get_session)) -> UserS
     return UserService(repo)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+async def get_admin_service(session: AsyncSession = Depends(get_session)) -> AdminService:
+    repo = UserRepository(session)
+    return AdminService(repo)
+
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
@@ -44,3 +50,10 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+async def get_current_admin_user(
+        current_user : User = Depends(get_current_user)
+) -> User:
+    if current_user.role != 'admin':
+        raise PermissionError('For admin use only')
+    else:
+        return current_user

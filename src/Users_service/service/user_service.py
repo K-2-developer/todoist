@@ -83,6 +83,8 @@ class UserService:
                 raise ConflictError("Email already in use")
             user.email = data.email
         if data.role is not None:
+            if current_user.role != 'admin':
+                raise PermissionError('Only admin can change role')
             user.role = data.role
         if data.is_active is not None:
             user.is_active = data.is_active
