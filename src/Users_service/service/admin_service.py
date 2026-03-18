@@ -1,8 +1,9 @@
 from typing import List
 from uuid import UUID
 from Users_service.repository.interfaces.user_interface import IUserRepository
-from Users_service.schemas.user_schemas import UserResponse
-from Users_service.core.exceptions import UserNotFound
+from Users_service.schemas.user_schemas import UserResponse, UserUpdate
+from Users_service.core.exceptions import UserNotFound, ConflictError
+
 
 class AdminService:
     def __init__(self, repo: IUserRepository):
@@ -19,4 +20,36 @@ class AdminService:
         if user is None:
             raise UserNotFound('User not found')
         user.role = new_role
+        await self.repo.update_user(user)
+
+    async def delete_user(self, user_id: UUID) -> None:
+        user = await self.repo.get_user(user_id)
+        if not user:
+            raise UserNotFound("User not found")
+        await self.repo.delete_user(user_id)
+
+    async def hard_delete_user(self, user_id: UUID) -> None:
+        user = await self.repo.get_user(user_id)
+        if not user:
+            raise UserNotFound("User not found")
+        await self.repo.hard_delete_user(user_id)
+
+
+    async def update_user(self, user_id: UUID, data: UserUpdate) -> None:
+        user = await self.repo.get_user(user_id)
+        if not user:
+            raise UserNotFound("User not found")
+        if data.name is not None:
+            user.name = data.name
+        if data.second_name is not None:
+            user.second_name = data.second_name
+        if data.email is not None and data.email != user.email:
+            existing = await self.repo.get_user_by_email(data.email)
+            if existing and existing.id != user_id:
+                raise ConflictError("Email already in use")
+            user.email = data.email
+        if data.role is not None:
+            user.role = data.role
+        if data.is_active is not None:
+            user.is_active = data.is_active
         await self.repo.update_user(user)
