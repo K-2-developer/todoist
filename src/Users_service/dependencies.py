@@ -3,12 +3,12 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
-from Users_service.service.admin_service import AdminService
+from service.admin_service import AdminService
 from core.config import settings
-from Users_service.Infrastructure.Database.database import get_session
-from Users_service.repository.implementations.UserRepository import UserRepository
-from Users_service.service.user_service import UserService
-from Users_service.Domain.user import User
+from Infrastructure.Database.database import get_session
+from repository.implementations.UserRepository import UserRepository
+from service.user_service import UserService
+from Domain.user import User
 
 
 async def get_user_service(session : AsyncSession=Depends(get_session)) -> UserService:

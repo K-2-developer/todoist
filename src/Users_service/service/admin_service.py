@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID
-from Users_service.repository.interfaces.user_interface import IUserRepository
-from Users_service.schemas.user_schemas import UserResponse, UserUpdate
-from Users_service.core.exceptions import UserNotFound, ConflictError
+from repository.interfaces.user_interface import IUserRepository
+from schemas.user_schemas import UserResponse, UserUpdate
+from core.exceptions import UserNotFound, ConflictError
 
 
 class AdminService:

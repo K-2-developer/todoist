@@ -2,10 +2,10 @@
 from fastapi import APIRouter, Depends
 from typing import List, Annotated
 from uuid import UUID
-from Users_service.dependencies import get_admin_service, get_current_admin_user
-from Users_service.service.admin_service import AdminService
-from Users_service.schemas.user_schemas import UserResponse, UserRoleUpdate, UserUpdate
-from Users_service.Domain.user import User
+from dependencies import get_admin_service, get_current_admin_user
+from service.admin_service import AdminService
+from schemas.user_schemas import UserResponse, UserRoleUpdate, UserUpdate
+from Domain.user import User
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

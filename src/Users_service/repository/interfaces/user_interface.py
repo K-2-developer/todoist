@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
-from Users_service.Domain.user import User
+from Domain.user import User
 
 class IUserRepository(ABC):
     @abstractmethod

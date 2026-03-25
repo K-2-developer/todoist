@@ -4,12 +4,11 @@ from pathlib import Path
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
-from Infrastructure.Database.orm_models import Base
-from Infrastructure.Database.orm_models.user import UserORM
+
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from Users_service.Infrastructure.Database import Base
+from Infrastructure.Database import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

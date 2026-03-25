@@ -2,9 +2,9 @@ from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
-from Users_service.Domain.user import User
-from Users_service.Infrastructure.Database.orm_models.user import UserORM
-from Users_service.repository.interfaces.user_interface import IUserRepository
+from Domain.user import User
+from Infrastructure.Database.orm_models.user import UserORM
+from repository.interfaces.user_interface import IUserRepository
 
 
 class UserRepository(IUserRepository):

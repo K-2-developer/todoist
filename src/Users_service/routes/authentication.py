@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from Users_service.core.exceptions import ConflictError
-from Users_service.dependencies import get_user_service
-from Users_service.service.user_service import UserService
-from Users_service.schemas.user_schemas import UserCreate, Token
+from core.exceptions import ConflictError
+from dependencies import get_user_service
+from service.user_service import UserService
+from schemas.user_schemas import UserCreate, Token
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 

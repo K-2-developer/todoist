@@ -1,13 +1,13 @@
 from typing import List, Optional
 from uuid import uuid4, UUID
 from pwdlib import PasswordHash
-from Users_service.Domain.user import User
-from Users_service.repository.interfaces.user_interface import IUserRepository
-from Users_service.schemas.user_schemas import UserCreate, UserUpdate, UserResponse, UserResponseShort, UserEmailResponse
+from Domain.user import User
+from repository.interfaces.user_interface import IUserRepository
+from schemas.user_schemas import UserCreate, UserUpdate, UserResponse, UserResponseShort, UserEmailResponse
 from jose import jwt
-from Users_service.core.config import settings
+from core.config import settings
 from datetime import datetime, timedelta, timezone
-from Users_service.core.exceptions import UserNotFound, PermissionError, ConflictError
+from core.exceptions import UserNotFound, PermissionError, ConflictError
 
 hasher = PasswordHash.recommended()
 
