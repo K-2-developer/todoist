@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from Boards_service.dependencies import get_task_service
-from Boards_service.schemas.task_schemas import *
-from Boards_service.service.task_service import TaskService
+from dependencies import get_task_service
+from schemas.task_schemas import *
+from service.task_service import TaskService
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 

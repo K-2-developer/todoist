@@ -10,5 +10,5 @@ class Workspace:
     is_archived : bool
     created_at : datetime | None = None
     updated_at : datetime | None = None
-    #user_id : UUID
-    #author(owner)_id : UUID на случай если есть пользователи
+    user_id : UUID
+    author_id : UUID

@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from uuid import UUID
 from datetime import datetime
-from .task_schemas import TaskNameResponse
+from task_schemas import TaskNameResponse
 
 
 class ColumnCreate(BaseModel):

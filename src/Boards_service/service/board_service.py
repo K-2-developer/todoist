@@ -1,11 +1,11 @@
 from uuid import uuid4
 from typing import List
-from Boards_service.repository.interfaces.board_interface import IBoardRepository
-from Boards_service.repository.interfaces.column_interface import IColumnRepository
-from Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
-from Boards_service.schemas.board_schemas import *
-from Boards_service.Domain.Board import Board
-from Boards_service.schemas.column_schemas import ColumnNameResponse
+from repository.interfaces.board_interface import IBoardRepository
+from repository.interfaces.column_interface import IColumnRepository
+from repository.interfaces.workspace_interface import IWorkSpaceRepository
+from schemas.board_schemas import *
+from Domain.Board import Board
+from schemas.column_schemas import ColumnNameResponse
 
 
 class BoardService:

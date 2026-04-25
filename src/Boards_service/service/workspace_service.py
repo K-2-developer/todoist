@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID, uuid4
-from Boards_service.schemas.workspace_schemas import *
-from Boards_service.repository.interfaces.workspace_interface import IWorkSpaceRepository
-from Boards_service.Domain.Workspace import Workspace
+from schemas.workspace_schemas import *
+from repository.interfaces.workspace_interface import IWorkSpaceRepository
+from Domain.Workspace import Workspace
 
 
 

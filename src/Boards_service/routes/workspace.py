@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from Boards_service.dependencies import get_workspace_service
-from Boards_service.schemas.workspace_schemas import *
-from Boards_service.service.workspace_service import WorkSpaceService
+from dependencies import get_workspace_service
+from schemas.workspace_schemas import *
+from service.workspace_service import WorkSpaceService
 
 router = APIRouter(prefix="/workspace", tags=["Workspace"])
 

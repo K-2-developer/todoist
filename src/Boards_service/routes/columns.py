@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from typing import List
 
-from Boards_service.dependencies import get_column_service
-from Boards_service.schemas.column_schemas import *
-from Boards_service.service.column_service import ColumnService
+from dependencies import get_column_service
+from schemas.column_schemas import *
+from service.column_service import ColumnService
 
 router = APIRouter(prefix="/columns", tags=["Columns"])
 

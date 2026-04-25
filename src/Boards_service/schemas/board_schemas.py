@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from uuid import UUID
 from datetime import datetime
-from .column_schemas import  ColumnNameResponse
+from column_schemas import  ColumnNameResponse
 
 
 class BoardCreate(BaseModel):

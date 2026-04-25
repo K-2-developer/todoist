@@ -1,9 +1,9 @@
 from typing import List
 from uuid import uuid4
-from Boards_service.Domain.Task import Task
-from Boards_service.repository.interfaces.column_interface import IColumnRepository
-from Boards_service.repository.interfaces.task_interface import ITaskRepository
-from Boards_service.schemas.task_schemas import *
+from Domain.Task import Task
+from repository.interfaces.column_interface import IColumnRepository
+from repository.interfaces.task_interface import ITaskRepository
+from schemas.task_schemas import *
 from datetime import datetime
 
 

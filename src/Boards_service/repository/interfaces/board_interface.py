@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
-from Boards_service.Domain.Board import Board
+from Domain.Board import Board
 
 
 class IBoardRepository(ABC):

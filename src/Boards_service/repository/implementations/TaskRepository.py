@@ -2,9 +2,9 @@ from typing import List
 from uuid import UUID
 from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from Boards_service.Domain.Task import Task
-from Boards_service.Infrastructure.Database.orm_models.task import TaskORM
-from Boards_service.repository.interfaces.task_interface import ITaskRepository
+from Domain.Task import Task
+from Infrastructure.Database.orm_models.task import TaskORM
+from repository.interfaces.task_interface import ITaskRepository
 
 
 class TaskRepository(ITaskRepository):

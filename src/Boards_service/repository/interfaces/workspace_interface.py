@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
-from Boards_service.Domain.Workspace import Workspace
+from Domain.Workspace import Workspace
 
 
 class IWorkSpaceRepository(ABC):
